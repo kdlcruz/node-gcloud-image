@@ -1,0 +1,13 @@
+FROM circleci/node:10.9
+
+# Install http apt transport (for yarn)
+RUN sudo apt-get update \
+  && sudo apt-get install -qqy apt-transport-https \
+  && sudo apt-get install lsb-release
+
+
+# Install gcloud
+RUN export CLOUD_SDK_REPO="cloud-sdk-$(lsb_release -c -s)" && \
+    echo "deb http://packages.cloud.google.com/apt $CLOUD_SDK_REPO main" | sudo tee -a /etc/apt/sources.list.d/google-cloud-sdk.list && \
+    curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add - && \
+    sudo apt-get update -y && sudo apt-get install google-cloud-sdk -y  
